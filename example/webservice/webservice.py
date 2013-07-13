@@ -74,7 +74,7 @@ class MyServiceStocks(resource.Resource):
     def __init__(self):
         self.db = MyServiceDatabase()
 
-    def render_PUT(self, request):
+    def render_POST(self, request):
         """Handle /stock/STOCK_NAME request"""
 
         request.setHeader("content-type", "application/json")
