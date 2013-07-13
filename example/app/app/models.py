@@ -1,19 +1,16 @@
 import simplejson as json
-import urllib
+from httplib import HTTPConnection
 
 class Stock():
     """Model for webservices stock data"""
-    url = 'http://localhost:8080/stocks'
-
-    def __init__(self, user, text, graphic, time):
-        self.user = user
-        self.text = text
-        self.graphic = graphic
-        self.time = time
 
     def list_stocks(self):
-        data = urllib.urlopen(url)
-        js = data.readlines()
-        jsobj = json.loads(js[0])
+
+        conn = HTTPConnection("localhost", 8080)
+        conn.request("GET", "/stock/")
+        response = conn.getresponse()
+
+        js = response.read()
+        jsobj = json.loads(js)
 
         return jsobj["stocks"]
