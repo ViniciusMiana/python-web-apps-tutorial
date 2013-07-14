@@ -1,3 +1,7 @@
+<script type="text/javascript">
+window.setTimeout("location.reload()", 60000); //reload stocks every 1min
+</script>
+
 <form method="post" action="{% url 'index' %}">
     {% csrf_token %}
     Stock: <input type="text" name="stock" id="stock" />
