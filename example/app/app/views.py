@@ -9,11 +9,12 @@ def index(request):
 
     if request.method == 'POST':
         return add_stock(request)
+
     context = {'stock_list': Stock().list_stocks()}
+
     return render(request, 'app/index.html', context)
 
 def add_stock(request):
-    context = {}
 
     conn = HTTPConnection("localhost", 8080)
     conn.request("POST", "/stock/{0}".format(request.POST["stock"]))
@@ -21,5 +22,7 @@ def add_stock(request):
 
     if response.status != 200:
         return HttpResponse(str(response.read()))
+
+    context = {'stock_list': Stock().list_stocks()}
 
     return render(request, 'app/index.html', context)
