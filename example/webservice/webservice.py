@@ -2,12 +2,14 @@
 
 import re
 import sys
+import csv
 import json
 from twisted.web import server, resource
-from twisted.internet import reactor
+from twisted.internet import task, reactor
 from twisted.python import log
 from database import MyServiceDatabase
 
+from httplib import HTTPConnection
 
 class MyServiceSettings(resource.Resource):
     """Handle /setting requests"""
@@ -142,6 +144,23 @@ class MyServiceStocks(resource.Resource):
         return json.dumps(result)
 
 
+def update_stock():
+    """Called in loop to update stocks values"""
+    db = MyServiceDatabase()
+    stocks = db.list_stocks()
+
+    conn = HTTPConnection("download.finance.yahoo.com")
+    conn.request("GET", "/d/quotes.csv?s={0}&f=sl1".format("+".join([x["name"] for x in stocks])))
+
+    response = conn.getresponse()
+
+    if response.status != 200:
+        return
+
+    for row in csv.reader(response.read().split("\n")):
+        if len(row) > 1:
+            db.update_stock(row[0], row[1])
+
 def main():
     """Main entry point"""
     root = resource.Resource()
@@ -151,6 +170,9 @@ def main():
     factory = server.Site(root)
 
     log.startLogging(sys.stdout)
+
+    us = task.LoopingCall(update_stock)
+    us.start(30, now=True)
 
     reactor.listenTCP(8080, factory)
     reactor.run()

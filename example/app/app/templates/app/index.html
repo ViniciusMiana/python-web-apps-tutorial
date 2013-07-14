@@ -1,14 +1,21 @@
 <form method="post" action="{% url index %}">
-	{% csrf_token %}
-	Stock: <input type="text" name="stock" id="stock" />
-	<input type="submit" value="Add" />
+    {% csrf_token %}
+    Stock: <input type="text" name="stock" id="stock" />
+    <input type="submit" value="Add" />
 </form>
 {% if stock_list %}
-    <ul>
+<table>
+    <tr>
+        <th>Stock</th>
+        <th>Value</th>
+    <tr>
     {% for stock in stock_list %}
-        <li>{{ stock }}</li>
+        <tr>
+            <td>{{ stock.name }}</td>
+            <td>{{ stock.value }}</td>
+        </tr>
     {% endfor %}
-    </ul>
+</table>
 {% else %}
     <p>No stocks are available.</p>
 {% endif %}

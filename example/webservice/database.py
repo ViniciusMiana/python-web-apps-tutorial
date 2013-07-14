@@ -20,6 +20,11 @@ class MyServiceDatabase():
         self.conn.execute("INSERT INTO portfolio(name) VALUES(?)", (name,))
         self.conn.commit()
 
+    def update_stock(self, name, value):
+        """Update a stock value from the portfolio"""
+        self.conn.execute("UPDATE portfolio SET value=? WHERE name=?", (value, name))
+        self.conn.commit()
+
     def get_stock(self, name):
         """Return a stock value"""
         cursor = self.conn.cursor()
@@ -37,10 +42,10 @@ class MyServiceDatabase():
     def list_stocks(self):
         """List all stocks in the portfolio"""
         cursor = self.conn.cursor()
-        cursor.execute("SELECT name FROM portfolio")
+        cursor.execute("SELECT name,value FROM portfolio")
 
         stocks = cursor.fetchall()
-        return [x[0] for x in stocks]
+        return [{"name": x[0], "value": x[1]} for x in stocks]
 
     def update_setting(self, name, value):
         """Update a setting, insert if not exists"""
