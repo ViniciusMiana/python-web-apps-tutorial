@@ -1,5 +1,11 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
 <script type="text/javascript">
 window.setTimeout("location.reload()", 60000); //reload stocks every 1min
+
+function remove_stock(stock) {
+    $.ajax("http://localhost:8080/stock")
+}
 </script>
 
 <form method="post" action="{% url 'index' %}">
@@ -12,11 +18,13 @@ window.setTimeout("location.reload()", 60000); //reload stocks every 1min
     <tr>
         <th>Stock</th>
         <th>Value</th>
+        <th>&nbsp;</th>
     <tr>
     {% for stock in stock_list %}
         <tr>
             <td>{{ stock.name }}</td>
             <td>{{ stock.value }}</td>
+            <td><a href="remove/{{ stock.name }}">Remove</a></td>
         </tr>
     {% endfor %}
 </table>
