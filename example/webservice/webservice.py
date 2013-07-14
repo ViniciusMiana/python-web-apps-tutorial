@@ -108,14 +108,17 @@ class MyServiceStocks(resource.Resource):
 
         result = {"status": "ok"}
 
-        try:
-            data = json.loads(request.content.read())
+        stock = None
+        restock = re.match("/stock/(.+)", request.uri)
 
-            stock = data["stock"]
+        if restock is not None:
+            stock = restock.groups()[0]
 
-            self.db.remove_stock(stock)
-        except (TypeError, ValueError, KeyError, sqlite3.IntegrityError) as e:
-            result = {"status": "error", "message": e.message}
+        if stock is None:
+            result = {"status": "error", "message": "no stock requested"}
+            return json.dumps(result)
+
+        self.db.remove_stock(stock)
 
         return json.dumps(result)
 
