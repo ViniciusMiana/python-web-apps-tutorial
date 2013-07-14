@@ -23,9 +23,7 @@ def add_stock(request):
     if response.status != 200:
         return HttpResponse(str(response.read()))
 
-    context = {'stock_list': Stock().list_stocks()}
-
-    return render(request, 'app/index.html', context)
+    return redirect("/")
 
 def remove_stock(request, stock):
 
