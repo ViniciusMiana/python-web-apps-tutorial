@@ -4,6 +4,7 @@ import re
 import sys
 import csv
 import json
+import sqlite3
 from twisted.web import server, resource
 from twisted.internet import task, reactor
 from twisted.python import log
@@ -95,7 +96,7 @@ class MyServiceStocks(resource.Resource):
 
         try:
             self.db.add_stock(stock)
-        except (TypeError, ValueError, KeyError) as e:
+        except (TypeError, ValueError, KeyError, sqlite3.IntegrityError) as e:
             result = {"status": "error", "message": e.message}
 
         return json.dumps(result)
@@ -113,7 +114,7 @@ class MyServiceStocks(resource.Resource):
             stock = data["stock"]
 
             self.db.remove_stock(stock)
-        except (TypeError, ValueError, KeyError) as e:
+        except (TypeError, ValueError, KeyError, sqlite3.IntegrityError) as e:
             result = {"status": "error", "message": e.message}
 
         return json.dumps(result)
@@ -137,6 +138,8 @@ class MyServiceStocks(resource.Resource):
 
         try:
             result["value"] = self.db.get_stock(stock)
+            self.db.add_stock("IBM")
+
 
         except (TypeError, ValueError, KeyError) as e:
             result = {"status": "error", "message": e.message}
