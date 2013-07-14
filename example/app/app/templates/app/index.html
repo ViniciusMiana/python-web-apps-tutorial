@@ -1,4 +1,4 @@
-<form method="post" action="{% url index %}">
+<form method="post" action="{% url 'index' %}">
 	{% csrf_token %}
 	Stock: <input type="text" name="stock" id="stock" />
 	<input type="submit" value="Add" />
