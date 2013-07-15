@@ -32,9 +32,9 @@ function remove_stock(stock) {
     <tr>
     {% for stock in stock_list %}
         <tr>
-            <td>{{ stock.name }}</td>
-            <td>{{ stock.value }}</td>
-            <td><a href="remove/{{ stock.name }}">Remove</a></td>
+            <td>{{ stock.symbol }}</td>
+            <td>{{ stock.last_price }}</td>
+            <td><a href="remove/{{ stock.symbol }}">Remove</a></td>
         </tr>
     {% endfor %}
 </table>

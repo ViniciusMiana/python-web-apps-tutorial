@@ -140,9 +140,7 @@ class MyServiceStocks(resource.Resource):
             return json.dumps(result)
 
         try:
-            result["value"] = self.db.get_stock(stock)
-            self.db.add_stock("IBM")
-
+            result["last_price"] = self.db.get_stock_price(stock)
 
         except (TypeError, ValueError, KeyError) as e:
             result = {"status": "error", "message": e.message}
