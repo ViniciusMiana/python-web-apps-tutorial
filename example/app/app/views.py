@@ -16,12 +16,10 @@ def index(request):
 
 def add_stock(request):
 
-    conn = HTTPConnection("localhost", 8080)
-    conn.request("POST", "/stock/{0}".format(request.POST["stock"]))
-    response = conn.getresponse()
-
-    if response.status != 200:
-        return HttpResponse(str(response.read()))
+    try:
+        Stock().add_stock(request.POST["stock"])
+    except Exception as e:
+        return HttpResponse(e.message)
 
     return redirect("/")
 
