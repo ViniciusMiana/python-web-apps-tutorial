@@ -154,7 +154,7 @@ def update_stock():
     stocks = db.list_stocks()
 
     conn = HTTPConnection("download.finance.yahoo.com")
-    conn.request("GET", "/d/quotes.csv?s={0}&f=sl1".format("+".join([x["name"] for x in stocks])))
+    conn.request("GET", "/d/quotes.csv?s={0}&f=sl1".format("+".join([x["symbol"] for x in stocks])))
 
     response = conn.getresponse()
 
