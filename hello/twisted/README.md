@@ -1,6 +1,6 @@
 To run this example, you will need to install twisted.
 
-Run: `sudo easy_install twisted`  
+Run: `sudo pip install twisted`  
 then run: `python hello.py`  
 finally open `http://localhost:8080/World` on your browser. 
 
