@@ -1,7 +1,9 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import url
 
-from hello import views
 
-urlpatterns = patterns('',	
-    (r'^(.*)$', views.hello)
-)
+from . import views 
+
+urlpatterns = [
+    url(r'^(.*)$', views.hello),
+]
+
