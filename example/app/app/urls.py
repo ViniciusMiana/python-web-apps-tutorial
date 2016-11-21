@@ -1,8 +1,8 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import url
 
-from app import views
+from . import views 
 
-urlpatterns = patterns('',
+urlpatterns = [ 
     url(r'^$', views.index, name='index'),
     url(r'^remove/(.*)', views.remove_stock, name='remove'),
-)
+]

@@ -1,4 +1,4 @@
-import simplejson as json
+import json
 from httplib import HTTPConnection
 
 class Stock():
