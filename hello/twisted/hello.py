@@ -1,11 +1,10 @@
 from twisted.web import server, resource
-from twisted.internet import reactor
+from twisted.internet import reactor, endpoints
 
 class MyServiceResource(resource.Resource):
 
    isLeaf = True
 
-   numberRequests = 0
 
    def render_GET(self, request):
 
@@ -14,8 +13,5 @@ class MyServiceResource(resource.Resource):
        return "Hello {0}".format(request.path[1:])
 
 if __name__ == "__main__":
-
-   factory = server.Site(MyServiceResource())
-
-   reactor.listenTCP(8080, factory)
+   endpoints.serverFromString(reactor, "tcp:8080").listen(server.Site(MyServiceResource()))
    reactor.run()
